@@ -1,0 +1,59 @@
+{
+  "name": "visand",
+  "version": "1.0.0",
+  "description": "visand is an e-commerce API which allows users to search, add items to their shopping cart, create order and checkout successfully.",
+  "main": "./build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development nodemon --exec babel-node ./server/index.js",
+    "build": "babel ./server --out-dir ./build",
+    "prestart": "npm run build",
+    "start": "node ./build/index.js",
+    "create:db": "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS visand'",
+    "migrate:db": "mysql -u root visand < tshirtshop.sql"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chukwuemekachm/visand.git"
+  },
+  "keywords": [],
+  "author": "Chima Chukwuemeka <chukwuemekachm@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chukwuemekachm/visand/issues"
+  },
+  "homepage": "https://github.com/chukwuemekachm/visand#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "nodemon": "^1.18.11",
+    "prettier": "^1.17.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "mysql": "^2.16.0",
+    "winston": "^3.2.1"
+  }
+}
