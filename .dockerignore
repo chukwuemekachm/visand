@@ -1,0 +1,14 @@
+# nodejs
+node_modules
+npm-debug.log
+
+# env
+.env.example
+
+# configs
+.prettierrc
+
+# git files
+LICENSE
+README.md
+.gitignore
