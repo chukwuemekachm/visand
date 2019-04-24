@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    working_directory: ~/workspace
+    steps:
+      - checkout
+      - run:
+          name: INSTALL NODE.JS
+          command: |
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+            [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+            nvm install 10
+            nvm alias default 10
+            echo "[ -s \"${NVM_DIR}/nvm.sh\" ] && . \"${NVM_DIR}/nvm.sh\"" >> $BASH_ENV
+      - run:
+          name: START MYSQL SERVER
+          command: |
+            docker-compose up -d
+            sleep 20
+      - run:
+          name: INSTALL NPM DEPENDENCIES
+          command: npm install
+      - run:
+          name: RUN TESTS
+          command: npm test
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly_build:
+    jobs:
+      - build
+    triggers:
+      - schedule:
+          cron: "0 2 * * *"
+          filters:
+            branches:
+              only:
+                - develop

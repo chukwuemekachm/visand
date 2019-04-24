@@ -1,0 +1,43 @@
+const users = [
+  {
+    email: '',
+    name: '',
+    password: '',
+    confirmPassword: '',
+    address1: '',
+    city: '',
+    region: '',
+    shippingRegionId: 1,
+    postalCode: 0,
+    country: '',
+    mobPhone: '',
+  },
+  {
+    email: 'jane@mail.com',
+    name: 'Jane Doe',
+    password: 'Password123',
+    confirmPassword: 'Password123',
+    address1: '1 Street name',
+    city: 'Lagos',
+    region: 'South West',
+    shippingRegionId: 1,
+    postalCode: 10059,
+    country: 'Nigeria',
+    mobPhone: '0123401093',
+  },
+  {
+    email: 'john@gmail.com',
+    name: 'Jane Doe',
+    password: 'Password123',
+    confirmPassword: 'Password123',
+    address1: '1 Street name',
+    city: 'Lagos',
+    region: 'South West',
+    shippingRegionId: 1,
+    postalCode: 10059,
+    country: 'Nigeria',
+    mobPhone: '0123401093',
+  },
+];
+
+export default users;
