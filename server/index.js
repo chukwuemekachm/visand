@@ -37,14 +37,16 @@ app.use('*', (req, res) =>
 );
 
 // Error Handler
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use(({ message = '', stack, statusCode = 500, errors }, req, res, next) => {
   logger.log({
     level: 'error',
-    message: err,
+    message: { message, stack },
   });
-  return res.status(500).json({
-    message: 'Internal server error',
-    error: isProduction ? null : err,
+  return res.status(statusCode).json({
+    message,
+    errors,
+    stackTrace: isProduction ? null : stack,
   });
 });
 

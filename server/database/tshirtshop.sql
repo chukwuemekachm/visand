@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS visand_dev;
+
+USE visand_dev;
+
 -- Create tshirtshop tables
 
 -- Create department table
@@ -122,7 +126,7 @@ CREATE TABLE `customer` (
   `customer_id`        INT           NOT NULL AUTO_INCREMENT,
   `name`               VARCHAR(50)   NOT NULL,
   `email`              VARCHAR(100)  NOT NULL,
-  `password`           VARCHAR(50)   NOT NULL,
+  `password`           VARCHAR(250)   NOT NULL,
   `credit_card`        TEXT,
   `address_1`          VARCHAR(100),
   `address_2`          VARCHAR(100),
@@ -355,13 +359,13 @@ INSERT INTO `tax` (`tax_id`, `tax_type`, `tax_percentage`) VALUES
        (2, 'No Tax',            0.00);
 
 -- Change DELIMITER to $$
-DELIMITER $$
+-- DELIMITER $$
 
 -- Create catalog_get_departments_list stored procedure
 CREATE PROCEDURE catalog_get_departments_list()
 BEGIN
   SELECT department_id, name FROM department ORDER BY department_id;
-END$$
+END --$$
 
 -- Create catalog_get_department_details stored procedure
 CREATE PROCEDURE catalog_get_department_details(IN inDepartmentId INT)
@@ -369,7 +373,7 @@ BEGIN
   SELECT name, description
   FROM   department
   WHERE  department_id = inDepartmentId;
-END$$
+END --$$
 
 -- Create catalog_get_categories_list stored procedure
 CREATE PROCEDURE catalog_get_categories_list(IN inDepartmentId INT)
@@ -378,7 +382,7 @@ BEGIN
   FROM     category
   WHERE    department_id = inDepartmentId
   ORDER BY category_id;
-END$$
+END --$$
 
 -- Create catalog_get_category_details stored procedure
 CREATE PROCEDURE catalog_get_category_details(IN inCategoryId INT)
@@ -386,7 +390,7 @@ BEGIN
   SELECT name, description
   FROM   category
   WHERE  category_id = inCategoryId;
-END$$
+END --$$
 
 -- Create catalog_count_products_in_category stored procedure
 CREATE PROCEDURE catalog_count_products_in_category(IN inCategoryId INT)
@@ -396,7 +400,7 @@ BEGIN
   INNER JOIN product_category pc
                ON p.product_id = pc.product_id
   WHERE      pc.category_id = inCategoryId;
-END$$
+END --$$
 
 -- Create catalog_get_products_in_category stored procedure
 CREATE PROCEDURE catalog_get_products_in_category(
@@ -427,7 +431,15 @@ BEGIN
 
   -- Execute the statement
   EXECUTE statement USING @p1, @p2, @p3, @p4, @p5;
-END$$
+END --$$
+
+-- Obtain the availability of a product
+CREATE PROCEDURE catalog_get_product_count(IN inProductId INT)
+BEGIN
+  SELECT COUNT(product_id) AS number
+  FROM product
+  WHERE product_id = inProductId;
+END --$$
 
 -- Create catalog_count_products_on_department stored procedure
 CREATE PROCEDURE catalog_count_products_on_department(IN inDepartmentId INT)
@@ -440,7 +452,7 @@ BEGIN
                     ON pc.category_id = c.category_id
   WHERE           (p.display = 2 OR p.display = 3)
                   AND c.department_id = inDepartmentId;
-END$$
+END --$$
 
 -- Create catalog_get_products_on_department stored procedure
 CREATE PROCEDURE catalog_get_products_on_department(
@@ -471,7 +483,7 @@ BEGIN
   SET @p5 = inProductsPerPage;
 
   EXECUTE statement USING @p1, @p2, @p3, @p4, @p5;
-END$$
+END --$$
 
 -- Create catalog_count_products_on_catalog stored procedure
 CREATE PROCEDURE catalog_count_products_on_catalog()
@@ -479,7 +491,7 @@ BEGIN
   SELECT COUNT(*) AS products_on_catalog_count
   FROM   product
   WHERE  display = 1 OR display = 3;
-END$$
+END --$$
 
 -- Create catalog_get_products_on_catalog stored procedure
 CREATE PROCEDURE catalog_get_products_on_catalog(
@@ -504,7 +516,7 @@ BEGIN
   SET @p4 = inProductsPerPage;
 
   EXECUTE statement USING @p1, @p2, @p3, @p4;
-END$$
+END --$$
 
 -- Create catalog_get_product_details stored procedure
 CREATE PROCEDURE catalog_get_product_details(IN inProductId INT)
@@ -513,7 +525,7 @@ BEGIN
          price, discounted_price, image, image_2
   FROM   product
   WHERE  product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_get_product_locations stored procedure
 CREATE PROCEDURE catalog_get_product_locations(IN inProductId INT)
@@ -529,7 +541,7 @@ BEGIN
             FROM   product_category
             WHERE  product_id = inProductId);
             -- Subquery returns the category IDs a product belongs to
-END$$
+END --$$
 
 -- Create catalog_get_product_attributes stored procedure
 CREATE PROCEDURE catalog_get_product_attributes(IN inProductId INT)
@@ -544,25 +556,25 @@ BEGIN
                 FROM   product_attribute
                 WHERE  product_id = inProductId)
   ORDER BY   a.name;
-END$$
+END --$$
 
 -- Create catalog_get_department_name stored procedure
 CREATE PROCEDURE catalog_get_department_name(IN inDepartmentId INT)
 BEGIN
   SELECT name FROM department WHERE department_id = inDepartmentId;
-END$$
+END --$$
 
 -- Create catalog_get_category_name stored procedure
 CREATE PROCEDURE catalog_get_category_name(IN inCategoryId INT)
 BEGIN
   SELECT name FROM category WHERE category_id = inCategoryId;
-END$$
+END --$$
 
 -- Create catalog_get_product_name stored procedure
 CREATE PROCEDURE catalog_get_product_name(IN inProductId INT)
 BEGIN
   SELECT name FROM product WHERE product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_count_search_result stored procedure
 CREATE PROCEDURE catalog_count_search_result(
@@ -583,7 +595,7 @@ BEGIN
   SET @p1 = inSearchString;
 
   EXECUTE statement USING @p1;
-END$$
+END --$$
 
 -- Create catalog_search stored procedure
 CREATE PROCEDURE catalog_search(
@@ -625,7 +637,7 @@ BEGIN
   SET @p4 = inProductsPerPage;
 
   EXECUTE statement USING @p1, @p1, @p2, @p2, @p3, @p4;
-END$$
+END --$$
 
 -- Create catalog_get_departments stored procedure
 CREATE PROCEDURE catalog_get_departments()
@@ -633,7 +645,7 @@ BEGIN
   SELECT   department_id, name, description
   FROM     department
   ORDER BY department_id;
-END$$
+END --$$
 
 -- Create catalog_add_department stored procedure
 CREATE PROCEDURE catalog_add_department(
@@ -641,7 +653,7 @@ CREATE PROCEDURE catalog_add_department(
 BEGIN
   INSERT INTO department (name, description)
          VALUES (inName, inDescription);
-END$$
+END --$$
 
 -- Create catalog_update_department stored procedure
 CREATE PROCEDURE catalog_update_department(IN inDepartmentId INT,
@@ -650,7 +662,7 @@ BEGIN
   UPDATE department
   SET    name = inName, description = inDescription
   WHERE  department_id = inDepartmentId;
-END$$
+END --$$
 
 -- Create catalog_delete_department stored procedure
 CREATE PROCEDURE catalog_delete_department(IN inDepartmentId INT)
@@ -669,7 +681,7 @@ BEGIN
   ELSE
     SELECT -1;
   END IF;
-END$$
+END --$$
 
 -- Create catalog_get_department_categories stored procedure
 CREATE PROCEDURE catalog_get_department_categories(IN inDepartmentId INT)
@@ -678,7 +690,7 @@ BEGIN
   FROM     category
   WHERE    department_id = inDepartmentId
   ORDER BY category_id;
-END$$
+END --$$
 
 -- Create catalog_add_category stored procedure
 CREATE PROCEDURE catalog_add_category(IN inDepartmentId INT,
@@ -686,7 +698,7 @@ CREATE PROCEDURE catalog_add_category(IN inDepartmentId INT,
 BEGIN
   INSERT INTO category (department_id, name, description)
          VALUES (inDepartmentId, inName, inDescription);
-END$$
+END --$$
 
 -- Create catalog_update_category stored procedure
 CREATE PROCEDURE catalog_update_category(IN inCategoryId INT,
@@ -695,7 +707,7 @@ BEGIN
     UPDATE category
     SET    name = inName, description = inDescription
     WHERE  category_id = inCategoryId;
-END$$
+END --$$
 
 -- Create catalog_delete_category stored procedure
 CREATE PROCEDURE catalog_delete_category(IN inCategoryId INT)
@@ -716,26 +728,26 @@ BEGIN
   ELSE
     SELECT -1;
   END IF;
-END$$
+END --$$
 
 -- Create catalog_get_attributes stored procedure
 CREATE PROCEDURE catalog_get_attributes()
 BEGIN
   SELECT attribute_id, name FROM attribute ORDER BY attribute_id;
-END$$
+END --$$
 
 -- Create catalog_add_attribute stored procedure
 CREATE PROCEDURE catalog_add_attribute(IN inName VARCHAR(100))
 BEGIN
   INSERT INTO attribute (name) VALUES (inName);
-END$$
+END --$$
 
 -- Create catalog_update_attribute stored procedure
 CREATE PROCEDURE catalog_update_attribute(
   IN inAttributeId INT, IN inName VARCHAR(100))
 BEGIN
   UPDATE attribute SET name = inName WHERE attribute_id = inAttributeId;
-END$$
+END --$$
 
 -- Create catalog_delete_attribute stored procedure
 CREATE PROCEDURE catalog_delete_attribute(IN inAttributeId INT)
@@ -754,7 +766,7 @@ BEGIN
   ELSE
     SELECT -1;
   END IF;
-END$$
+END --$$
 
 -- Create catalog_get_attribute_details stored procedure
 CREATE PROCEDURE catalog_get_attribute_details(IN inAttributeId INT)
@@ -762,7 +774,7 @@ BEGIN
   SELECT attribute_id, name
   FROM   attribute
   WHERE  attribute_id = inAttributeId;
-END$$
+END --$$
 
 -- Create catalog_get_attribute_values stored procedure
 CREATE PROCEDURE catalog_get_attribute_values(IN inAttributeId INT)
@@ -771,7 +783,7 @@ BEGIN
   FROM     attribute_value
   WHERE    attribute_id = inAttributeId
   ORDER BY attribute_id;
-END$$
+END --$$
 
 -- Create catalog_add_attribute_value stored procedure
 CREATE PROCEDURE catalog_add_attribute_value(
@@ -779,7 +791,7 @@ CREATE PROCEDURE catalog_add_attribute_value(
 BEGIN
   INSERT INTO attribute_value (attribute_id, value)
          VALUES (inAttributeId, inValue);
-END$$
+END --$$
 
 -- Create catalog_update_attribute_value stored procedure
 CREATE PROCEDURE catalog_update_attribute_value(
@@ -788,7 +800,7 @@ BEGIN
     UPDATE attribute_value
     SET    value = inValue
     WHERE  attribute_value_id = inAttributeValueId;
-END$$
+END --$$
 
 -- Create catalog_delete_attribute_value stored procedure
 CREATE PROCEDURE catalog_delete_attribute_value(IN inAttributeValueId INT)
@@ -809,7 +821,7 @@ BEGIN
   ELSE
     SELECT -1;
   END IF;
-END$$
+END --$$
 
 -- Create catalog_get_category_products stored procedure
 CREATE PROCEDURE catalog_get_category_products(IN inCategoryId INT)
@@ -821,7 +833,7 @@ BEGIN
                ON p.product_id = pc.product_id
   WHERE      pc.category_id = inCategoryId
   ORDER BY   p.product_id;
-END$$
+END --$$
 
 -- Create catalog_add_product_to_category stored procedure
 CREATE PROCEDURE catalog_add_product_to_category(IN inCategoryId INT,
@@ -837,7 +849,7 @@ BEGIN
 
   INSERT INTO product_category (product_id, category_id)
          VALUES (productLastInsertId, inCategoryId);
-END$$
+END --$$
 
 -- Create catalog_update_product stored procedure
 CREATE PROCEDURE catalog_update_product(IN inProductId INT,
@@ -848,7 +860,7 @@ BEGIN
   SET    name = inName, description = inDescription, price = inPrice,
          discounted_price = inDiscountedPrice
   WHERE  product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_remove_product_from_category stored procedure
 CREATE PROCEDURE catalog_remove_product_from_category(
@@ -871,7 +883,7 @@ BEGIN
 
     SELECT 1;
   END IF;
-END$$
+END --$$
 
 -- Create catalog_get_categories stored procedure
 CREATE PROCEDURE catalog_get_categories()
@@ -879,7 +891,7 @@ BEGIN
   SELECT   category_id, name, description
   FROM     category
   ORDER BY category_id;
-END$$
+END --$$
 
 -- Create catalog_get_product_info stored procedure
 CREATE PROCEDURE catalog_get_product_info(IN inProductId INT)
@@ -888,7 +900,7 @@ BEGIN
          image, image_2, thumbnail, display
   FROM   product
   WHERE  product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_get_categories_for_product stored procedure
 CREATE PROCEDURE catalog_get_categories_for_product(IN inProductId INT)
@@ -899,14 +911,14 @@ BEGIN
              ON c.category_id = pc.category_id
   WHERE    pc.product_id = inProductId
   ORDER BY category_id;
-END$$
+END --$$
 
 -- Create catalog_set_product_display_option stored procedure
 CREATE PROCEDURE catalog_set_product_display_option(
   IN inProductId INT, IN inDisplay SMALLINT)
 BEGIN
   UPDATE product SET display = inDisplay WHERE product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_assign_product_to_category stored procedure
 CREATE PROCEDURE catalog_assign_product_to_category(
@@ -914,7 +926,7 @@ CREATE PROCEDURE catalog_assign_product_to_category(
 BEGIN
   INSERT INTO product_category (product_id, category_id)
          VALUES (inProductId, inCategoryId);
-END$$
+END --$$
 
 -- Create catalog_move_product_to_category stored procedure
 CREATE PROCEDURE catalog_move_product_to_category(IN inProductId INT,
@@ -924,7 +936,7 @@ BEGIN
   SET    category_id = inTargetCategoryId
   WHERE  product_id = inProductId
          AND category_id = inSourceCategoryId;
-END$$
+END --$$
 
 -- Create catalog_get_attributes_not_assigned_to_product stored procedure
 CREATE PROCEDURE catalog_get_attributes_not_assigned_to_product(
@@ -940,7 +952,7 @@ BEGIN
               FROM   product_attribute
               WHERE  product_id = inProductId)
   ORDER BY   attribute_name, av.attribute_value_id;
-END$$
+END --$$
 
 -- Create catalog_assign_attribute_value_to_product stored procedure
 CREATE PROCEDURE catalog_assign_attribute_value_to_product(
@@ -948,7 +960,7 @@ CREATE PROCEDURE catalog_assign_attribute_value_to_product(
 BEGIN
   INSERT INTO product_attribute (product_id, attribute_value_id)
          VALUES (inProductId, inAttributeValueId);
-END$$
+END --$$
 
 -- Create catalog_remove_product_attribute_value stored procedure
 CREATE PROCEDURE catalog_remove_product_attribute_value(
@@ -957,21 +969,21 @@ BEGIN
   DELETE FROM product_attribute
   WHERE       product_id = inProductId AND
               attribute_value_id = inAttributeValueId;
-END$$
+END --$$
 
 -- Create catalog_set_image stored procedure
 CREATE PROCEDURE catalog_set_image(
   IN inProductId INT, IN inImage VARCHAR(150))
 BEGIN
   UPDATE product SET image = inImage WHERE product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_set_image_2 stored procedure
 CREATE PROCEDURE catalog_set_image_2(
   IN inProductId INT, IN inImage VARCHAR(150))
 BEGIN
   UPDATE product SET image_2 = inImage WHERE product_id = inProductId;
-END$$
+END --$$
 
 -- Create catalog_set_thumbnail stored procedure
 CREATE PROCEDURE catalog_set_thumbnail(
@@ -980,7 +992,29 @@ BEGIN
   UPDATE product
   SET    thumbnail = inThumbnail
   WHERE  product_id = inProductId;
-END$$
+END --$$
+
+-- Create shipping_get_shipping stored procedure
+CREATE PROCEDURE shipping_get_shipping()
+BEGIN
+	SELECT shipping_id, shipping_type, shipping_cost, shipping_region_id
+	FROM shipping;
+END --$$
+
+-- Create shipping_get_shipping_region stored procedure
+CREATE PROCEDURE shipping_get_shipping_region()
+BEGIN
+	SELECT shipping_region_id, shipping_region
+	FROM shipping_region;
+END --$$
+
+-- Obtain the validity of a shopping cart
+CREATE PROCEDURE shopping_cart_get_cart_count(IN inCartId CHAR(32))
+BEGIN
+  SELECT COUNT(cart_id) AS number
+  FROM shopping_cart
+  WHERE cart_id = inCartId;
+END --$$
 
 -- Create shopping_cart_add_product stored procedure
 CREATE PROCEDURE shopping_cart_add_product(IN inCartId CHAR(32),
@@ -1008,7 +1042,7 @@ BEGIN
            AND product_id = inProductId
            AND attributes = inAttributes;
   END IF;
-END$$
+END --$$
 
 -- Create shopping_cart_update_product stored procedure
 CREATE PROCEDURE shopping_cart_update(IN inItemId INT, IN inQuantity INT)
@@ -1020,13 +1054,13 @@ BEGIN
   ELSE
     CALL shopping_cart_remove_product(inItemId);
   END IF;
-END$$
+END --$$
 
 -- Create shopping_cart_remove_product stored procedure
 CREATE PROCEDURE shopping_cart_remove_product(IN inItemId INT)
 BEGIN
   DELETE FROM shopping_cart WHERE item_id = inItemId;
-END$$
+END --$$
 
 -- Create shopping_cart_get_products stored procedure
 CREATE PROCEDURE shopping_cart_get_products(IN inCartId CHAR(32))
@@ -1040,7 +1074,7 @@ BEGIN
   INNER JOIN product p
                ON sc.product_id = p.product_id
   WHERE      sc.cart_id = inCartId AND sc.buy_now;
-END$$
+END --$$
 
 -- Create shopping_cart_get_saved_products stored procedure
 CREATE PROCEDURE shopping_cart_get_saved_products(IN inCartId CHAR(32))
@@ -1051,7 +1085,7 @@ BEGIN
   INNER JOIN product p
                ON sc.product_id = p.product_id
   WHERE      sc.cart_id = inCartId AND NOT sc.buy_now;
-END$$
+END --$$
 
 -- Create shopping_cart_get_total_amount stored procedure
 CREATE PROCEDURE shopping_cart_get_total_amount(IN inCartId CHAR(32))
@@ -1062,7 +1096,7 @@ BEGIN
   INNER JOIN product p
                ON sc.product_id = p.product_id
   WHERE      sc.cart_id = inCartId AND sc.buy_now;
-END$$
+END --$$
 
 -- Create shopping_cart_save_product_for_later stored procedure
 CREATE PROCEDURE shopping_cart_save_product_for_later(IN inItemId INT)
@@ -1070,7 +1104,7 @@ BEGIN
   UPDATE shopping_cart
   SET    buy_now = false, quantity = 1
   WHERE  item_id = inItemId;
-END$$
+END --$$
 
 -- Create shopping_cart_move_product_to_cart stored procedure
 CREATE PROCEDURE shopping_cart_move_product_to_cart(IN inItemId INT)
@@ -1078,7 +1112,7 @@ BEGIN
   UPDATE shopping_cart
   SET    buy_now = true, added_on = NOW()
   WHERE  item_id = inItemId;
-END$$
+END --$$
 
 -- Create catalog_delete_product stored procedure
 CREATE PROCEDURE catalog_delete_product(IN inProductId INT)
@@ -1087,7 +1121,7 @@ BEGIN
   DELETE FROM product_category WHERE product_id = inProductId;
   DELETE FROM shopping_cart WHERE product_id = inProductId;
   DELETE FROM product WHERE product_id = inProductId;
-END$$
+END --$$
 
 -- Create shopping_cart_count_old_carts stored procedure
 CREATE PROCEDURE shopping_cart_count_old_carts(IN inDays INT)
@@ -1098,7 +1132,7 @@ BEGIN
           GROUP BY cart_id
           HAVING   DATE_SUB(NOW(), INTERVAL inDays DAY) >= MAX(added_on))
          AS old_carts;
-END$$
+END --$$
 
 -- Create shopping_cart_delete_old_carts stored procedure
 CREATE PROCEDURE shopping_cart_delete_old_carts(IN inDays INT)
@@ -1112,13 +1146,13 @@ BEGIN
                    HAVING   DATE_SUB(NOW(), INTERVAL inDays DAY) >=
                             MAX(added_on))
                   AS sc);
-END$$
+END --$$
 
 -- Create shopping_cart_empty stored procedure
 CREATE PROCEDURE shopping_cart_empty(IN inCartId CHAR(32))
 BEGIN
   DELETE FROM shopping_cart WHERE cart_id = inCartId;
-END$$
+END --$$
 
 -- Create orders_get_order_details stored procedure
 CREATE PROCEDURE orders_get_order_details(IN inOrderId INT)
@@ -1127,7 +1161,7 @@ BEGIN
          quantity, unit_cost, (quantity * unit_cost) AS subtotal
   FROM   order_detail
   WHERE  order_id = inOrderId;
-END$$
+END --$$
 
 -- Create catalog_get_recommendations stored procedure
 CREATE PROCEDURE catalog_get_recommendations(
@@ -1150,7 +1184,7 @@ BEGIN
   SET @p2 = inProductId;
 
   EXECUTE statement USING @p1, @p1, @p2, @p2;
-END$$
+END --$$
 
 -- Create shopping_cart_get_recommendations stored procedure
 CREATE PROCEDURE shopping_cart_get_recommendations(
@@ -1187,13 +1221,13 @@ BEGIN
   SET @p2 = inCartId;
 
   EXECUTE statement USING @p1, @p1, @p2, @p2;
-END$$
+END --$$
 
 -- Create customer_get_login_info stored procedure
 CREATE PROCEDURE customer_get_login_info(IN inEmail VARCHAR(100))
 BEGIN
   SELECT customer_id, password FROM customer WHERE email = inEmail;
-END$$
+END --$$
 
 -- Create customer_add stored procedure
 CREATE PROCEDURE customer_add(IN inName VARCHAR(50),
@@ -1203,7 +1237,7 @@ BEGIN
          VALUES (inName, inEmail, inPassword);
 
   SELECT LAST_INSERT_ID();
-END$$
+END --$$
 
 -- Create customer_get_customer stored procedure
 CREATE PROCEDURE customer_get_customer(IN inCustomerId INT)
@@ -1213,7 +1247,7 @@ BEGIN
          shipping_region_id, day_phone, eve_phone, mob_phone
   FROM   customer
   WHERE  customer_id = inCustomerId;
-END$$
+END --$$
 
 -- Create customer_update_account stored procedure
 CREATE PROCEDURE customer_update_account(IN inCustomerId INT,
@@ -1226,7 +1260,7 @@ BEGIN
          password = inPassword, day_phone = inDayPhone,
          eve_phone = inEvePhone, mob_phone = inMobPhone
   WHERE  customer_id = inCustomerId;
-END$$
+END --$$
 
 -- Create customer_update_credit_card stored procedure
 CREATE PROCEDURE customer_update_credit_card(
@@ -1235,13 +1269,13 @@ BEGIN
   UPDATE customer
   SET    credit_card = inCreditCard
   WHERE  customer_id = inCustomerId;
-END$$
+END --$$
 
 -- Create customer_get_shipping_regions stored procedure
 CREATE PROCEDURE customer_get_shipping_regions()
 BEGIN
   SELECT shipping_region_id, shipping_region FROM shipping_region;
-END$$
+END --$$
 
 -- Create customer_update_address stored procedure
 CREATE PROCEDURE customer_update_address(IN inCustomerId INT,
@@ -1255,7 +1289,15 @@ BEGIN
          region = inRegion, postal_code = inPostalCode,
          country = inCountry, shipping_region_id = inShippingRegionId
   WHERE  customer_id = inCustomerId;
-END$$
+END --$$
+
+-- Create customer_get_customer_orders stored procedure
+CREATE PROCEDURE customer_get_customer_orders(IN inCustomerId INT)
+BEGIN
+	SELECT order_id, total_amount, created_on, 'status', comments, shipping_id, tax_id
+	FROM orders
+	WHERE customer_id = inCustomerId;
+END --$$
 
 -- Create orders_get_most_recent_orders stored procedure
 CREATE PROCEDURE orders_get_most_recent_orders(IN inHowMany INT)
@@ -1272,7 +1314,7 @@ BEGIN
   SET @p1 = inHowMany;
 
   EXECUTE statement USING @p1;
-END$$
+END --$$
 
 -- Create orders_get_orders_between_dates stored procedure
 CREATE PROCEDURE orders_get_orders_between_dates(
@@ -1285,7 +1327,7 @@ BEGIN
                ON o.customer_id = c.customer_id
   WHERE      o.created_on >= inStartDate AND o.created_on <= inEndDate
   ORDER BY   o.created_on DESC;
-END$$
+END --$$
 
 -- Create orders_get_orders_by_status stored procedure
 CREATE PROCEDURE orders_get_orders_by_status(IN inStatus INT)
@@ -1297,7 +1339,7 @@ BEGIN
                ON o.customer_id = c.customer_id
   WHERE      o.status = inStatus
   ORDER BY   o.created_on DESC;
-END$$
+END --$$
 
 -- Create orders_get_by_customer_id stored procedure
 CREATE PROCEDURE orders_get_by_customer_id(IN inCustomerId INT)
@@ -1309,7 +1351,7 @@ BEGIN
                ON o.customer_id = c.customer_id
   WHERE      o.customer_id = inCustomerId
   ORDER BY   o.created_on DESC;
-END$$
+END --$$
 
 -- Create orders_get_order_short_details stored procedure
 CREATE PROCEDURE orders_get_order_short_details(IN inOrderId INT)
@@ -1320,13 +1362,13 @@ BEGIN
   INNER JOIN  customer c
                 ON o.customer_id = c.customer_id
   WHERE       o.order_id = inOrderId;
-END$$
+END --$$
 
 -- Create customer_get_customers_list stored procedure
 CREATE PROCEDURE customer_get_customers_list()
 BEGIN
   SELECT customer_id, name FROM customer ORDER BY name ASC;
-END$$
+END --$$
 
 -- Create shopping_cart_create_order stored procedure
 CREATE PROCEDURE shopping_cart_create_order(IN inCartId CHAR(32),
@@ -1362,7 +1404,7 @@ BEGIN
 
   -- Return the Order ID
   SELECT orderId;
-END$$
+END --$$
 
 -- Create orders_get_order_info stored procedure
 CREATE PROCEDURE orders_get_order_info(IN inOrderId INT)
@@ -1377,7 +1419,7 @@ BEGIN
   INNER JOIN shipping s
                ON s.shipping_id = o.shipping_id
   WHERE      o.order_id = inOrderId;
-END$$
+END --$$
 
 -- Create orders_get_shipping_info stored procedure
 CREATE PROCEDURE orders_get_shipping_info(IN inShippingRegionId INT)
@@ -1385,7 +1427,7 @@ BEGIN
   SELECT shipping_id, shipping_type, shipping_cost, shipping_region_id
   FROM   shipping
   WHERE  shipping_region_id = inShippingRegionId;
-END$$
+END --$$
 
 -- Create orders_create_audit stored procedure
 CREATE PROCEDURE orders_create_audit(IN inOrderId INT,
@@ -1393,13 +1435,13 @@ CREATE PROCEDURE orders_create_audit(IN inOrderId INT,
 BEGIN
   INSERT INTO audit (order_id, created_on, message, code)
          VALUES (inOrderId, NOW(), inMessage, inCode);
-END$$
+END --$$
 
 -- Create orders_update_status stored procedure
 CREATE PROCEDURE orders_update_status(IN inOrderId INT, IN inStatus INT)
 BEGIN
   UPDATE orders SET status = inStatus WHERE order_id = inOrderId;
-END$$
+END --$$
 
 -- Create orders_set_auth_code stored procedure
 CREATE PROCEDURE orders_set_auth_code(IN inOrderId INT,
@@ -1408,13 +1450,13 @@ BEGIN
   UPDATE orders
   SET    auth_code = inAuthCode, reference = inReference
   WHERE  order_id = inOrderId;
-END$$
+END --$$
 
 -- Create orders_set_date_shipped stored procedure
 CREATE PROCEDURE orders_set_date_shipped(IN inOrderId INT)
 BEGIN
   UPDATE orders SET shipped_on = NOW() WHERE order_id = inOrderId;
-END$$
+END --$$
 
 -- Create orders_update_order stored procedure
 CREATE PROCEDURE orders_update_order(IN inOrderId INT, IN inStatus INT,
@@ -1438,7 +1480,7 @@ BEGIN
   ELSEIF inStatus > 6 AND currentDateShipped IS NULL THEN
     UPDATE orders SET shipped_on = NOW() WHERE order_id = inOrderId;
   END IF;
-END$$
+END --$$
 
 -- Create orders_get_audit_trail stored procedure
 CREATE PROCEDURE orders_get_audit_trail(IN inOrderId INT)
@@ -1446,7 +1488,7 @@ BEGIN
   SELECT audit_id, order_id, created_on, message, code
   FROM   audit
   WHERE  order_id = inOrderId;
-END$$
+END --$$
 
 -- Create catalog_get_product_reviews stored procedure
 CREATE PROCEDURE catalog_get_product_reviews(IN inProductId INT)
@@ -1457,7 +1499,7 @@ BEGIN
                ON c.customer_id = r.customer_id
   WHERE      r.product_id = inProductId
   ORDER BY   r.created_on DESC;
-END$$
+END --$$
 
 -- Create catalog_create_product_review stored procedure
 CREATE PROCEDURE catalog_create_product_review(IN inCustomerId INT,
@@ -1465,7 +1507,7 @@ CREATE PROCEDURE catalog_create_product_review(IN inCustomerId INT,
 BEGIN
   INSERT INTO review (customer_id, product_id, review, rating, created_on)
          VALUES (inCustomerId, inProductId, inReview, inRating, NOW());
-END$$
+END --$$
 
 -- Change back DELIMITER to ;
-DELIMITER ;
+-- DELIMITER ;

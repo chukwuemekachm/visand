@@ -4,13 +4,15 @@
   "description": "visand is an e-commerce API which allows users to search, add items to their shopping cart, create order and checkout successfully.",
   "main": "./build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout 15000 --require babel-register ./__tests__/**/*.spec.js",
     "dev": "NODE_ENV=development nodemon --exec babel-node ./server/index.js",
     "build": "babel ./server --out-dir ./build",
     "prestart": "npm run build",
     "start": "node ./build/index.js",
     "create:db": "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS visand'",
-    "migrate:db": "mysql -u root visand < tshirtshop.sql"
+    "drop:db": "mysql -u root -e 'DROP DATABASE IF EXISTS visand'",
+    "migrate:db": "mysql -u root visand < tshirtshop.sql",
+    "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov"
   },
   "repository": {
     "type": "git",
@@ -40,20 +42,28 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.1",
     "husky": "^1.3.1",
     "lint-staged": "^8.1.5",
+    "mocha": "^6.1.4",
     "nodemon": "^1.18.11",
+    "nyc": "^14.0.0",
     "prettier": "^1.17.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
-    "mysql": "^2.16.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^1.6.5",
+    "validatorjs": "^3.15.1",
     "winston": "^3.2.1"
   }
 }
