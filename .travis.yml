@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "9"
+
+services:
+  - mysql
+
+before_install:
+  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS visand_dev;'
+  - mysql -u root visand_dev < server/database/tshirtshop.sql
+  - npm install -g npm@latest
+
+script:
+  - npm test

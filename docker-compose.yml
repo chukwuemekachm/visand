@@ -10,8 +10,8 @@ services:
   database:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: my_password
-      MYSQL_DATABASE: visand_dev
+      - MYSQL_ROOT_HOST=% 
+      - MYSQL_DATABASE=visand_dev
     command: --default-authentication-plugin=mysql_native_password --init-file /var/data/tshirtshop.sql
     restart: always
     ports:

@@ -11,7 +11,7 @@ const { expect } = chai;
 const BASE_URL = '/api/v1/auth';
 const { request } = chai;
 
-describe('', () => {
+describe('AUTHENTICATION TESTS', () => {
   describe('/api/v1/auth/signup', () => {
     test('should return a 400 validation error when no fields are sent', async () => {
       const {
