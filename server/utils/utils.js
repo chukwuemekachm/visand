@@ -28,4 +28,15 @@ export const transformModelKeys = model => {
   return camelCasedModel;
 };
 
+export const groupAttributesByName = attributes =>
+  attributes
+    .map(attribute => transformModelKeys(attribute))
+    .reduce((accumulator, currentValue) => {
+      const result = { ...accumulator };
+      result[currentValue.attributeName] = result[currentValue.attributeName]
+        ? [...result[currentValue.attributeName], currentValue]
+        : [currentValue];
+      return result;
+    }, {});
+
 export default transformToSnaKeCase;

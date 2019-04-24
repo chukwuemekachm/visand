@@ -24,4 +24,10 @@ export class ValidationError extends VisandError {
   }
 }
 
+export class NotFoundError extends VisandError {
+  constructor(message) {
+    super(message, undefined, 404);
+  }
+}
+
 export default VisandError;
