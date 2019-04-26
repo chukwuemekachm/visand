@@ -25,7 +25,9 @@ describe('AUTHENTICATION TESTS', () => {
 
     test('should return a 200 and signup the user', async () => {
       const {
-        body: { message, errors, user, token },
+        body: {
+          message, errors, user, token,
+        },
         status,
       } = await request(server)
         .post(`${BASE_URL}/signup`)
@@ -66,7 +68,9 @@ describe('AUTHENTICATION TESTS', () => {
 
     test('should return a 200 and authenticate the user', async () => {
       const {
-        body: { message, errors, user, token },
+        body: {
+          message, errors, user, token,
+        },
         status,
       } = await request(server)
         .post(`${BASE_URL}/login`)
