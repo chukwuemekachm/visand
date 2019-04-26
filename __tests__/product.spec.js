@@ -18,7 +18,9 @@ describe('PRODUCT ROUTES TESTS', () => {
         status,
       } = await request(server).get(`${BASE_URL}?offset=0&limit=5`);
       const [
-        { productId, name, description, price, discountedPrice, thumbnail },
+        {
+          productId, name, description, price, discountedPrice, thumbnail,
+        },
       ] = products;
       expect(message).to.equal('Products retrieved successfully');
       expect(status).to.equal(200);

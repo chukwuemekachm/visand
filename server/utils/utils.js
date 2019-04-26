@@ -1,5 +1,5 @@
 export const transformToSnaKeCase = (word = '') => {
-  const charArr = [...word].map(char => {
+  const charArr = [...word].map((char) => {
     const isUpper = char.match(/[A-Z]/);
     const result = isUpper ? `_${char.toLowerCase()}` : char;
     return result;
@@ -18,25 +18,27 @@ export const transformToCamelCase = (word = '') => {
   return wordArr.join('');
 };
 
-export const transformModelKeys = model => {
+export const transformModelKeys = (model) => {
   if (!model) return model;
   const camelCasedModel = {};
-  Object.keys(model).forEach(key => {
+  Object.keys(model).forEach((key) => {
     const camelCaseKey = transformToCamelCase(key);
     camelCasedModel[camelCaseKey] = model[key];
   });
   return camelCasedModel;
 };
 
-export const groupAttributesByName = attributes =>
-  attributes
-    .map(attribute => transformModelKeys(attribute))
-    .reduce((accumulator, currentValue) => {
-      const result = { ...accumulator };
-      result[currentValue.attributeName] = result[currentValue.attributeName]
-        ? [...result[currentValue.attributeName], currentValue]
-        : [currentValue];
-      return result;
-    }, {});
+export const groupAttributesByName = attributes => attributes
+  .map(attribute => transformModelKeys(attribute))
+  .reduce((accumulator, currentValue) => {
+    const result = { ...accumulator };
+    result[currentValue.attributeName] = result[currentValue.attributeName]
+      ? [...result[currentValue.attributeName], currentValue]
+      : [currentValue];
+    return result;
+  }, {});
+
+export const generateRandomString = () => Math
+  .random().toString(36).substring(5, 15) + Math.random().toString(36).substring(5, 15);
 
 export default transformToSnaKeCase;

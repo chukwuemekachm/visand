@@ -30,15 +30,15 @@ app.use(bodyParser.json());
 // API Routes
 app.use('/api/v1', router);
 
-app.use('*', (req, res) =>
-  res.status(404).json({
-    message: 'Route un-available',
-  }),
-);
+app.use('*', (req, res) => res.status(404).json({
+  message: 'Route un-available',
+}));
 
 // Error Handler
 // eslint-disable-next-line no-unused-vars
-app.use(({ message = '', stack, statusCode = 500, errors }, req, res, next) => {
+app.use(({
+  message = '', stack, statusCode = 500, errors,
+}, req, res, next) => {
   logger.log({
     level: 'error',
     message: { message, stack },
@@ -50,11 +50,9 @@ app.use(({ message = '', stack, statusCode = 500, errors }, req, res, next) => {
   });
 });
 
-app.listen(PORT, () =>
-  logger.log({
-    level: 'info',
-    message: `Server listening on port ${PORT}`,
-  }),
-);
+app.listen(PORT, () => logger.log({
+  level: 'info',
+  message: `Server listening on port ${PORT}`,
+}));
 
 export default app;

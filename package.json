@@ -25,17 +25,6 @@
     "url": "https://github.com/chukwuemekachm/visand/issues"
   },
   "homepage": "https://github.com/chukwuemekachm/visand#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -48,12 +37,9 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.1",
-    "husky": "^1.3.1",
-    "lint-staged": "^8.1.5",
     "mocha": "^6.1.4",
     "nodemon": "^1.18.11",
-    "nyc": "^14.0.0",
-    "prettier": "^1.17.0"
+    "nyc": "^14.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
