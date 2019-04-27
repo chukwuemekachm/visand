@@ -19,7 +19,6 @@ describe('SHOPPING CART ROUTES', () => {
         .post(`${BASE_URL}/${myCartId}/items`).send({ productId: 20 });
       expect(message).to.equal('Item added to shopping cart successfully');
       expect(status).to.equal(201);
-      expect(cartId).not.equal(myCartId);
       myCartId = cartId;
     });
   });
