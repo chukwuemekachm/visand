@@ -356,6 +356,14 @@ INSERT INTO `tax` (`tax_id`, `tax_type`, `tax_percentage`) VALUES
        (1, 'Sales Tax at 8.5%', 8.50),
        (2, 'No Tax',            0.00);
 
+-- Populate customer table
+INSERT INTO `customer` (`customer_id`, `name`, `email`, `password`, `shipping_region_id`) VALUES
+       (1, 'Test User', 'test.user@mail.com', 'Visand', 1);
+
+-- Populate shopping_cart table
+INSERT INTO `shopping_cart` (`item_id`, `cart_id`, `product_id`, `quantity`, `buy_now`) VALUES
+       (1, 'vsc-2019-abcdefgh', 30, 2, true), (2, 'vsc-2019-abcdefgh', 33, 3, true);
+
 -- Change DELIMITER to $$
 DELIMITER $$
 

@@ -41,4 +41,7 @@ export const groupAttributesByName = attributes => attributes
 export const generateRandomString = () => Math
   .random().toString(36).substring(5, 15) + Math.random().toString(36).substring(5, 15);
 
+export const capitalizeString = string => string.charAt(0)
+  .toUpperCase() + string.slice(1).toLowerCase();
+
 export default transformToSnaKeCase;
