@@ -9,9 +9,9 @@
     "build": "babel ./server --out-dir ./build",
     "prestart": "npm run build",
     "start": "node ./build/index.js",
-    "create:db": "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS visand'",
-    "drop:db": "mysql -u root -e 'DROP DATABASE IF EXISTS visand'",
-    "migrate:db": "mysql -u root visand < tshirtshop.sql",
+    "create:db": "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS visand_dev'",
+    "drop:db": "mysql -u root -e 'DROP DATABASE IF EXISTS visand_dev'",
+    "migrate:db": "mysql -u root visand_dev < server/database/tshirtshop.sql",
     "coverage": "nyc report --reporter=text-lcov | coveralls && nyc report --reporter=lcov"
   },
   "repository": {
