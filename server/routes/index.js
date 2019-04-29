@@ -12,10 +12,14 @@ import validationMiddleware from '../middlewares/validationMiddleware';
 import permissionMiddleware from '../middlewares/permissionMiddleware';
 
 const router = Router();
+const { API_DOCS_URL } = process.env;
 
 router.get('/', (req, res) => res.status(200).json({
   message: 'Welcome to visand is an e-commerce web service API',
 }));
+
+router.get('/docs', (req, res) => res
+  .redirect(API_DOCS_URL || 'https://documenter.getpostman.com/view/3397523/S1Lpas8b'));
 
 router.use('/auth', validationMiddleware, authRoutes);
 router.use('/product', productRoutes);

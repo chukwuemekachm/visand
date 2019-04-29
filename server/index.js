@@ -46,7 +46,7 @@ app.use(({
   return res.status(statusCode).json({
     message,
     errors,
-    stackTrace: isProduction ? null : stack,
+    stackTrace: !isProduction ? undefined : stack,
   });
 });
 
