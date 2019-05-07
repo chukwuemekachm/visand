@@ -1,6 +1,7 @@
 # visand
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=popout-square&logo=javascript&logoColor=yellow)
+
 [![Build Status](https://travis-ci.com/chukwuemekachm/visand.svg?token=9H4eahqQoiktHg2ifh1V&branch=develop)](https://travis-ci.com/chukwuemekachm/visand)
 
 **visand** is an e-commerce API for an online **T-Shirt shop** which allows users to search, add items to their shopping cart, create order and pay for their orders successfully.
@@ -50,6 +51,12 @@ touch .env
 cp .env.sample .env
 ```
 - Now update the environmental variables with the variables you want to use for your **visand** installation.
+
+##### Install Dependencies
+- Run the command below to install `node` dependencies
+```bash
+npm install
+```
 
 ### Usage
 - To start up your newly installed **visand** run

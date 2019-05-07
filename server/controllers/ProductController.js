@@ -1,5 +1,6 @@
 import ProductRepository from '../repositories/ProductRepository';
 import { NotFoundError } from '../helpers/Errors';
+import { appendImageUrls } from '../utils/utils';
 
 class ProductController {
   constructor() {
@@ -9,7 +10,9 @@ class ProductController {
   getAllProducts = async (req, res, next) => {
     try {
       const { search, offset, limit } = req.query;
-      const products = await this.repository.get(search, offset, limit);
+      const hostName = req.get('host');
+      let products = await this.repository.get(search, offset, limit);
+      products = products.map(product => appendImageUrls(product, hostName));
       return res.status(200).json({
         message: 'Products retrieved successfully',
         products,
@@ -21,13 +24,15 @@ class ProductController {
 
   getSingleProduct = async (req, res, next) => {
     try {
+      const hostName = req.get('host');
       const { productId } = req.params;
-      const product = await this.repository.getById(productId);
+      let product = await this.repository.getById(productId);
       if (!product) {
         throw new NotFoundError(
           `Product with productId ${productId} not found`,
         );
       }
+      product = appendImageUrls(product, hostName);
       return res.status(200).json({
         message: 'Product retrieved successfully',
         product,
