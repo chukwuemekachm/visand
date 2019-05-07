@@ -1,5 +1,6 @@
 import CategoryRepository from '../repositories/CategoryRepository';
 import { NotFoundError } from '../helpers/Errors';
+import { appendImageUrls } from '../utils/utils';
 
 class CategoryController {
   constructor() {
@@ -41,8 +42,10 @@ class CategoryController {
 
   getCategoryProducts = async (req, res, next) => {
     try {
+      const hostName = req.get('host');
       const { categoryId } = req.params;
-      const products = await this.repository.getProducts(categoryId);
+      let products = await this.repository.getProducts(categoryId);
+      products = products.map(product => appendImageUrls(product, hostName));
       return res.status(200).json({
         message: `Products for category ${categoryId} retrieved successfully`,
         products,

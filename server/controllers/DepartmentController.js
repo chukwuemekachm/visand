@@ -1,5 +1,6 @@
 import DepartmentRepository from '../repositories/DepartmentRepository';
 import { NotFoundError } from '../helpers/Errors';
+import { appendImageUrls } from '../utils/utils';
 
 class DepartmentController {
   constructor() {
@@ -41,13 +42,15 @@ class DepartmentController {
 
   getDepartmentProducts = async (req, res, next) => {
     try {
+      const hostName = req.get('host');
       const { departmentId } = req.params;
       const { offset, limit } = req.query;
-      const products = await this.repository.getProducts(
+      let products = await this.repository.getProducts(
         departmentId,
         offset,
         limit,
       );
+      products = products.map(product => appendImageUrls(product, hostName));
       return res.status(200).json({
         message: `Products for department ${departmentId} retrieved successfully`,
         products,

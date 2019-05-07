@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
@@ -30,6 +31,8 @@ app.use(bodyParser.json());
 // API Routes
 app.use('/api/v1', router);
 
+app.use('/images', express.static(path.join(process.cwd(), 'images')));
+
 app.use('*', (req, res) => res.status(404).json({
   message: 'Route un-available',
 }));
@@ -46,7 +49,7 @@ app.use(({
   return res.status(statusCode).json({
     message,
     errors,
-    stackTrace: !isProduction ? undefined : stack,
+    stackTrace: isProduction ? undefined : stack,
   });
 });
 

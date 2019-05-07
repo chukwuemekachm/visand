@@ -26,10 +26,11 @@ class CategoryRepository {
     }
   }
 
-  async getProducts(categoryId) {
+  async getProducts(categoryId, offset = 0, limit = Infinity) {
     try {
-      const query = 'CALL catalog_get_category_products(?);';
-      const [[products]] = await this.pool.execute(query, [categoryId]);
+      const query = 'CALL catalog_get_products_in_category(?, 24, ?, ?);';
+      const values = [categoryId, limit, offset];
+      const [[products]] = await this.pool.execute(query, values);
       return products.map(product => transformModelKeys(product));
     } catch (error) {
       throw error;

@@ -44,4 +44,20 @@ export const generateRandomString = () => Math
 export const capitalizeString = string => string.charAt(0)
   .toUpperCase() + string.slice(1).toLowerCase();
 
+export const appendImageUrls = (product, hostName) => {
+  let myProduct = product;
+  const { thumbnail, image, image2 } = product;
+  const imageNames = { thumbnail, image, image2 };
+  Object.keys(imageNames).forEach((key) => {
+    if (imageNames[key]) {
+      const imageUrl = `${hostName}/images/${imageNames[key]}`;
+      myProduct = {
+        ...myProduct,
+        [key]: imageUrl,
+      };
+    }
+  });
+  return myProduct;
+};
+
 export default transformToSnaKeCase;
