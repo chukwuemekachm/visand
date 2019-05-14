@@ -90,6 +90,46 @@ class AuthController {
       return next(error);
     }
   };
+
+  facebookAuth = async (req, res, next) => {
+    try {
+      const { user: { email, name } } = req;
+      const user = await this.repository.getOne({ email });
+      if (user) {
+        const {
+          customerId,
+          mobPhone,
+          address1,
+        } = user;
+        const token = generateToken({ email, customerId });
+      return res.status(200).json({
+        message: 'User facebook signin successful',
+        user: {
+          email,
+          name,
+          mobPhone,
+          address1,
+        },
+        token,
+      });
+      }
+      const { insertId: customerId } = await this.repository.save({
+        name,
+        email,
+      });
+      const token = generateToken({ email, customerId });
+      return res.status(201).json({
+        message: 'User facebook signin successful',
+        user: {
+          email,
+          name,
+        },
+        token,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export default new AuthController();

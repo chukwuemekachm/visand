@@ -3,18 +3,23 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
+import passport from 'passport';
+import FacebookTokenStrategy from 'passport-facebook-token';
 
 import router from './routes';
 import logger from './utils/logger';
+import passportAuth from './config/passport';
 
 const app = express();
-const { NODE_ENV, PORT = 3000 } = process.env;
+const { NODE_ENV, PORT = 9000 } = process.env;
 const isProduction = NODE_ENV === 'production';
 
 // Middlewares
 // CORS middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8000');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', 'DELETE, PUT, GET, POST');
   res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
   res.header(
     'Access-Control-Allow-Headers',
@@ -27,6 +32,12 @@ app.use((req, res, next) => {
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Passport auth
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
+passport.use(passportAuth);
+app.use(passport.initialize());
 
 // API Routes
 app.use('/api/v1', router);

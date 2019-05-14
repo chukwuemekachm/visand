@@ -16,6 +16,7 @@ To setup **visand**, the following should be installed on your machine.
 You also need to setup
 - [PayPal Sandbox Account](https://developer.paypal.com/)
 - [SendGrid](https://sendgrid.com/docs/for-developers)
+- [Facebook App](https://developers.facebook.com/)
 
 If you don't have these already, click on any of them to install it on your local machine.
 
@@ -51,6 +52,10 @@ touch .env
 cp .env.sample .env
 ```
 - Now update the environmental variables with the variables you want to use for your **visand** installation.
+```
+*Note* Ensure that you've created all the required accounts for ths sandboxes above such as Paypal, SendGrid and Facebook.
+Update .env with the sandbox keys
+```
 
 ##### Install Dependencies
 - Run the command below to install `node` dependencies
