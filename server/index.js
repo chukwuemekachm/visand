@@ -4,7 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import passport from 'passport';
-import FacebookTokenStrategy from 'passport-facebook-token';
+import cors from 'cors';
 
 import router from './routes';
 import logger from './utils/logger';
@@ -16,17 +16,7 @@ const isProduction = NODE_ENV === 'production';
 
 // Middlewares
 // CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8000');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Origin', 'DELETE, PUT, GET, POST');
-  res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
-  );
-  next();
-});
+app.use(cors());
 
 // Body parser and helmet middleware
 app.use(helmet());
