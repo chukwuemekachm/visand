@@ -41,14 +41,14 @@ class UserRepository {
       const {
         name,
         email,
-        password,
-        address1,
-        city,
-        region,
-        shippingRegionId,
-        postalCode,
-        country,
-        mobPhone,
+        password = '',
+        address1 = '',
+        city = '',
+        region = '',
+        shippingRegionId = 1,
+        postalCode = '',
+        country = '',
+        mobPhone = '',
       } = user;
       const query = `
         INSERT INTO customer

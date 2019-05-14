@@ -102,16 +102,16 @@ class AuthController {
           address1,
         } = user;
         const token = generateToken({ email, customerId });
-      return res.status(200).json({
-        message: 'User facebook signin successful',
-        user: {
-          email,
-          name,
-          mobPhone,
-          address1,
-        },
-        token,
-      });
+        return res.status(200).json({
+          message: 'User facebook signin successful',
+          user: {
+            email,
+            name,
+            mobPhone,
+            address1,
+          },
+          token,
+        });
       }
       const { insertId: customerId } = await this.repository.save({
         name,
