@@ -1,8 +1,9 @@
 import OrderRepository from '../repositories/OrderRepository';
 import ShippingCartRepository from '../repositories/ShoppingCartRepository';
 import VisandError, { NotFoundError } from '../helpers/Errors';
-import makeOrderPayment from '../payPal';
+import verifyOrderPayment from '../payPal';
 import { sendEmail } from '../helpers/emailSender';
+import emailTemplates from '../helpers/emailTemplates';
 
 class OrderController {
   constructor() {
@@ -62,6 +63,7 @@ class OrderController {
     try {
       const { orderId } = req.params;
       const { customerId, email } = req.user;
+      const { paymentId } = req.body;
       const order = await this.repository.getById(orderId);
       
       if (!order) {
@@ -72,28 +74,24 @@ class OrderController {
         throw new NotFoundError(`Order with orderId ${orderId} does not exist`);
       }
 
-      const result = await makeOrderPayment(totalAmount);
+      const result = await verifyOrderPayment(paymentId);
       if (!result) {
         throw new VisandError('Unable to complete payment now, please try again later');
       }
-      const { value, paymentId } = result;
-      if (Number.parseFloat(value) === Number.parseFloat(totalAmount)) {
+      const { amount, shipping } = result;
+      if (Number.parseFloat(amount) === Number.parseFloat(totalAmount)) {
         await this.repository.fulfillOrder(orderId, paymentId)
         sendEmail(
           email,
           'ORDER CHECKOUT',
-          `
-          Your order with orderId: ${orderId} has been processed and is waiting fulfilment.
-          Please contact support@t-shirt-shop.visand.com.
-          `);
+          emailTemplates.paymentSuccess('there', orderId),
+          );
       } else {
         sendEmail(
           email,
           'ORDER CHECKOUT',
-          `
-          We encountered an error processing your order with orderId: ${orderId}.
-          Please contact support@t-shirt-shop.visand.com.
-          `);
+          emailTemplates.paymentFail('there', orderId),
+          );
       }
 
       return res.status(200).json({
