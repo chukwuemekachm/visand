@@ -77,7 +77,9 @@ describe('ORDER ROUTES', () => {
 
     test('should return 200 and fulfil an order on the platform', async () => {
       const { body: { order: { orderId, paymentId }, message }, status } = await request(server)
-        .put(`${BASE_URL}/1`).set('Authorization', `Bearer ${authToken}`);
+        .put(`${BASE_URL}/1`)
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ paymentId: '8CV392047K6653150' });
       expect(message).to.equal('Your payment is been processed');
       expect(status).to.equal(200);
       expect(typeof orderId).to.equal('string');
