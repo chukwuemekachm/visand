@@ -1,4 +1,14 @@
+/**
+ * @fileOverview Contains the various email templates used on the server
+ *
+ * @author Chima Chukwuemeka
+*/
+
 export default {
+  /**
+   * @member paymentSuccess
+   * @function
+  */
   paymentSuccess: (name, orderId) => `
     <section style="padding: 1em">
       <img src="https://cdn.pixabay.com/photo/2017/03/28/05/09/truck-2181037_960_720.png" style="width: 100%; height: auto; margin: auto;" />
@@ -10,6 +20,10 @@ export default {
       <a href="https://visand-prous.netlify.com?deals=8rfj9rj" target="_blank" style="color: #F62E5F">Here</a>
     </section>
   `,
+  /**
+   * @member paymentFail
+   * @function
+  */
   paymentFail: (name, orderId) => `
     <section style="padding: 1em">
       <img src="https://cdn.pixabay.com/photo/2016/09/01/08/24/smiley-1635448_960_720.png" style="width: 100%; height: auto; margin: auto;" />

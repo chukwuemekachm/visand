@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Contains the product routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires server/controllers/ProductController.js
+*/
+
 import { Router } from 'express';
 
 import ProductController from '../controllers/ProductController';

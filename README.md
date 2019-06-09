@@ -69,6 +69,10 @@ npm install
 npm run start
 ```
 
+### Docs
+- [API Docs](https://visand-t-shirt-shop.herokuapp.com/api/v1/docs)
+- [Code Docs](https://visand-code-docs.netlify.com/)
+
 ## Built With
 - [express](https://expressjs.com/)
 - [babel](https://babeljs.io/)

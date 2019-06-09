@@ -1,3 +1,21 @@
+/**
+ * @fileOverview Entry point of the server
+ * Contains all the configuration of the application
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:dotenv
+ * @requires NPM:path
+ * @requires NPM:express
+ * @requires NPM:body-parser
+ * @requires NPM:helmet
+ * @requires NPM:passport
+ * @requires NPM:cors
+ * @requires server/routes/index.js
+ * @requires server/utils/logger.js
+ * @requires server/config/passport.js
+*/
+
 import 'dotenv/config';
 import path from 'path';
 import express from 'express';

@@ -1,11 +1,36 @@
+/**
+ * @fileOverview Contains the User Repository class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/config/pool.js
+ * @requires server/utils/utils.js:transformModelKeys
+*/
+
 import pool from '../config/pool';
 import { transformToSnaKeCase, transformModelKeys } from '../utils/utils';
 
+/**
+ * The User Repository class
+ * @class
+*/
 class UserRepository {
+  /**
+   * @constructor
+  */
   constructor() {
     this.pool = pool;
   }
 
+  /**
+   * @description Returns a list of users on the platform which meets the condition
+   *
+   * @function
+   *
+   * @param {object} condition - The condition to filter the returned users with
+   *
+   * @returns {array}
+   */
   async get(condition = {}) {
     try {
       let query = `
@@ -27,6 +52,15 @@ class UserRepository {
     }
   }
 
+  /**
+   * @description Returns a single user on the platform which meets the conditions
+   *
+   * @function
+   *
+   * @param {object} condition - The conditions to filter the returned user with
+   *
+   * @returns {object}
+   */
   async getOne(condition = {}) {
     try {
       const [user] = await this.get(condition);
@@ -36,6 +70,15 @@ class UserRepository {
     }
   }
 
+  /**
+   * @description Creates a new user record on the platform
+   *
+   * @function
+   *
+   * @param {object} user - The user to be created
+   *
+   * @returns {object}
+   */
   async save(user) {
     try {
       const {

@@ -1,11 +1,34 @@
+/**
+ * @fileOverview Contains the Department Repository class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/config/pool.js
+ * @requires server/utils/utils.js:transformModelKeys
+*/
+
 import pool from '../config/pool';
 import { transformModelKeys } from '../utils/utils';
 
+/**
+ * The Department Repository class
+ * @class
+*/
 class DepartmentRepository {
+  /**
+   * @constructor
+  */
   constructor() {
     this.pool = pool;
   }
 
+  /**
+   * @description Returns all the departments on the platform
+   *
+   * @function
+   *
+   * @returns {array}
+   */
   async get() {
     try {
       const query = 'CALL catalog_get_departments();';
@@ -16,6 +39,15 @@ class DepartmentRepository {
     }
   }
 
+  /**
+   * @description Returns a single department on the platform by id
+   *
+   * @function
+   *
+   * @param {number} departmentId - The department id of the category to be returned
+   *
+   * @returns {array}
+   */
   async getById(departmentId) {
     try {
       const query = 'CALL catalog_get_department_details(?);';
@@ -26,6 +58,17 @@ class DepartmentRepository {
     }
   }
 
+  /**
+   * @description Returns all the products which belong to a department
+   *
+   * @function
+   *
+   * @param {number} categoryId - The department id
+   * @param {number} offset - The offset to be skipped
+   * @param {number} limit - The limit or number of products to be returned
+   *
+   * @returns {array}
+   */
   async getProducts(departmentId, offset = 0, limit = Infinity) {
     try {
       const query = 'CALL catalog_get_products_on_department(?, 24, ?, ?);';
@@ -37,6 +80,15 @@ class DepartmentRepository {
     }
   }
 
+  /**
+   * @description Returns all the categories which belong to a department
+   *
+   * @function
+   *
+   * @param {number} departmentId - The department id
+   *
+   * @returns {array}
+   */
   async getCategories(departmentId) {
     try {
       const query = 'CALL catalog_get_department_categories(?);';

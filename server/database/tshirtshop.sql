@@ -605,7 +605,7 @@ END $$
 
 -- Create catalog_search stored procedure
 CREATE PROCEDURE catalog_search(
-  IN inSearchString TEXT, IN inAllWords VARCHAR(3),
+  IN inSearchString TEXT, IN inAllWords VARCHAR(2),
   IN inShortProductDescriptionLength INT,
   IN inProductsPerPage INT, IN inStartItem INT)
 BEGIN

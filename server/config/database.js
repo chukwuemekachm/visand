@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains the database environment configuration
+ *
+ * @author Chima Chukwuemeka
+*/
+
 export default {
   development: {
     user: process.env.DEV_DB_USERNAME,

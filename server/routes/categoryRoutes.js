@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Contains the category routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires server/controllers/CategoryController.js
+*/
+
 import { Router } from 'express';
 
 import CategoryController from '../controllers/CategoryController';

@@ -1,11 +1,33 @@
+/**
+ * @fileOverview Contains the Shopping Cart Repository class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/config/pool.js
+ * @requires server/utils/utils.js:transformModelKeys
+*/
+
 import pool from '../config/pool';
 import { transformModelKeys } from '../utils/utils';
 
+/**
+ * The Shopping Cart Repository class
+ * @class
+*/
 class ShoppingCartRepository {
   constructor() {
     this.pool = pool;
   }
 
+  /**
+   * @description Checks if a shopping cart exists on the platform
+   *
+   * @function
+   *
+   * @param {number} cartId - The id of the shopping cart to be checked
+   *
+   * @returns {boolean}
+  */
   async cartExists(cartId) {
     try {
       const query = 'CALL shopping_cart_get_cart_count(?)';
@@ -17,6 +39,15 @@ class ShoppingCartRepository {
     }
   }
 
+  /**
+   * @description Returns a single shopping cart on the platform by id
+   *
+   * @function
+   *
+   * @param {number} cartId - The id of the shopping cart to be returned
+   *
+   * @returns {object}
+  */
   async getById(cartId) {
     try {
       const query = 'CALL shopping_cart_get_products(?)';
@@ -35,6 +66,17 @@ class ShoppingCartRepository {
     }
   }
 
+  /**
+   * @description Adds an item to a shopping cart on the platform
+   *
+   * @function
+   *
+   * @param {string} cartId - The customer id
+   * @param {number} productId - The product/item id
+   * @param {object} attributesObj - The attributes to be added alongside the item
+   *
+   * @returns {object}
+   */
   async addProduct(cartId, productId, attributesObj = {}) {
     try {
       const query = 'CALL shopping_cart_add_product(?, ?, ?)';
@@ -47,6 +89,15 @@ class ShoppingCartRepository {
     }
   }
 
+  /**
+   * @description Removes an item from the shopping cart
+   *
+   * @function
+   *
+   * @param {string} itemId - The item id to be removed
+   *
+   * @returns {object}
+   */
   async removeProduct(itemId) {
     try {
       const query = 'CALL shopping_cart_remove_product(?)';

@@ -1,5 +1,16 @@
+/**
+ * @fileOverview Creates a winston logger instance to be used across the app
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:winston
+*/
+
 import winston from 'winston';
 
+/**
+ * @description creates a logger instance
+ */
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),

@@ -1,3 +1,13 @@
+/**
+ * @fileOverview Contains the database pool configuration shared across repositories
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:dotenv:config
+ * @requires NPM:mysql2
+ * @requires server/config/database.js:pool
+*/
+
 import 'dotenv/config';
 import mysql from 'mysql2';
 

@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Contains the order routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires server/controllers/OrderController.js
+*/
+
 import { Router } from 'express';
 
 import OrderController from '../controllers/OrderController';

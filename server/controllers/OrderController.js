@@ -1,3 +1,17 @@
+/**
+ * @fileOverview Contains the Order Controller class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/repositories/OrderRepository.js
+ * @requires server/repositories/ShopppingCartRepository.js
+ * @requires server/helpers/Errors.js:NotFoundError
+ * @requires server/helpers/Errors.js:VisandError
+ * @requires server/payPal/index.js
+ * @requires server/helpers/emailSender.js:sendEmail
+ * @requires server/helpers/emailTemplates.js
+*/
+
 import OrderRepository from '../repositories/OrderRepository';
 import ShippingCartRepository from '../repositories/ShoppingCartRepository';
 import VisandError, { NotFoundError } from '../helpers/Errors';
@@ -5,11 +19,30 @@ import verifyOrderPayment from '../payPal';
 import { sendEmail } from '../helpers/emailSender';
 import emailTemplates from '../helpers/emailTemplates';
 
+/**
+ * The Order Controller class
+ * @class
+*/
 class OrderController {
+  /**
+   * @constructor
+  */
   constructor() {
     this.repository = OrderRepository;
   }
 
+  /**
+   * @description Returns a single order on the platform by id
+   * The order must belong to the authenticated user or else a 404 error is thrown
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getSingleOrder = async (req, res, next) => {
     try {
       const { orderId } = req.params;
@@ -26,6 +59,15 @@ class OrderController {
     }
   }
 
+  /**
+   * @description Returns all the orders made by the authenticated user on the platform
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getUserOrders = async (req, res, next) => {
     try {
       const { customerId } = req.user;
@@ -39,6 +81,15 @@ class OrderController {
     }
   }
 
+  /**
+   * @description Creates a new order on the platform for the authenticated user
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   createOrder = async (req, res, next) => {
     try {
       const { cartId, shippingId } = req.body;
@@ -59,6 +110,16 @@ class OrderController {
     }
   }
 
+  /**
+   * @description Processes the payment for an order on the platform.
+   * The order must belong to the authenticated user or else a 404 error is thrown
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   makeOrderPayment = async (req, res, next) => {
     try {
       const { orderId } = req.params;

@@ -1,12 +1,41 @@
+/**
+ * @fileOverview Contains the Product Controller class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/repositories/ProductRepository.js
+ * @requires server/helpers/Errors.js:NotFoundError
+ * @requires server/utils/utils.js:appendImageUrls
+*/
+
 import ProductRepository from '../repositories/ProductRepository';
 import { NotFoundError } from '../helpers/Errors';
 import { appendImageUrls } from '../utils/utils';
 
+/**
+ * The Product Controller class
+ * @class
+*/
 class ProductController {
+  /**
+   * @constructor
+  */
   constructor() {
     this.repository = ProductRepository;
   }
 
+  /**
+   * @description Returns a list of products on the platform on the platform.
+   * Searches for products on the platform as well
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getAllProducts = async (req, res, next) => {
     try {
       const { search, offset, limit } = req.query;
@@ -22,6 +51,17 @@ class ProductController {
     }
   };
 
+  /**
+   * @description Returns a single product on the platform by id
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getSingleProduct = async (req, res, next) => {
     try {
       const hostName = req.get('host');
@@ -42,6 +82,17 @@ class ProductController {
     }
   };
 
+  /**
+   * @description Returns the attributes of a single on the platform by id
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getProductAttributes = async (req, res, next) => {
     try {
       const { productId } = req.params;

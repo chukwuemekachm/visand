@@ -1,3 +1,11 @@
+/**
+ * @fileOverview Creates the passport auth strategies
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:passport-facebook-token
+*/
+
 import FacebookTokenStrategy from 'passport-facebook-token';
 
 const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET } = process.env;
