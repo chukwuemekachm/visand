@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Contains the department routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires server/controllers/DepartmentController.js
+*/
+
 import { Router } from 'express';
 
 import DepartmentController from '../controllers/DepartmentController';

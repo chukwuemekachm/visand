@@ -1,26 +1,70 @@
+/**
+ * @fileOverview Contains the Shopping Cart Controller class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/repositories/ShoppingCartRepository.js
+ * @requires server/repositories/ProductRepository.js
+ * @requires server/utils/utils.js:generateRandomString
+ * @requires server/utils/utils.js:appendImageUrls
+ * @requires server/helpers/Errors.js:NotFoundError
+*/
+
 import ShoppingCartRepository from '../repositories/ShoppingCartRepository';
 import ProductRepository from '../repositories/ProductRepository';
-import { generateRandomString } from '../utils/utils';
+import { generateRandomString, appendImageUrls } from '../utils/utils';
 import { NotFoundError } from '../helpers/Errors';
 
+/**
+ * The Shopping Cart Controller class
+ * @class
+*/
 class ShippingCartController {
+  /**
+   * @constructor
+  */
   constructor() {
     this.repository = ShoppingCartRepository;
   }
 
+  /**
+   * @description Returns a single shopping cart on the platform by id
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getSingleCart = async (req, res, next) => {
     try {
       const { cartId } = req.params;
+      const hostName = req.get('host');
       const cart = await this.repository.getById(cartId);
+      let items = cart.items.map(item => appendImageUrls(item, hostName));
+
       return res.status(200).json({
         message: 'Shopping Cart retrieved successfully',
-        cart,
+        cart: { ...cart, items },
       });
     } catch (error) {
       return next(error);
     }
   }
 
+  /**
+   * @description Adds an item to the shopping cart
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   addProductToCart = async (req, res, next) => {
     try {
       const { productId, attributes } = req.body;
@@ -54,6 +98,17 @@ class ShippingCartController {
     }
   }
 
+  /**
+   * @description Removes an item from the shopping cart
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   removeProductFromCart = async (req, res, next) => {
     try {
       const { itemId } = req.params;

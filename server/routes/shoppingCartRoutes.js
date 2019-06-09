@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Contains the shopping cart routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires server/controllers/ShoppingCartController.js
+*/
+
 import { Router } from 'express';
 
 import ShippingCartController from '../controllers/ShippingCartController';

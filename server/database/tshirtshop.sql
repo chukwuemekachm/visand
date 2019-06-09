@@ -69,7 +69,7 @@ CREATE TABLE `product_attribute` (
 
 -- Create shopping_cart table
 CREATE TABLE `shopping_cart` (
-  `item_id`     INT           NOT NULL  AUTO_INCREMENT,
+  `item_id`     VARCHAR(50)   NOT NULL,
   `cart_id`     CHAR(32)      NOT NULL,
   `product_id`  INT           NOT NULL,
   `attributes`  VARCHAR(1000) NOT NULL,
@@ -361,8 +361,8 @@ INSERT INTO `customer` (`customer_id`, `name`, `email`, `password`, `shipping_re
        (1, 'Test User', 'test.user@mail.com', 'Visand', 1);
 
 -- Populate shopping_cart table
-INSERT INTO `shopping_cart` (`item_id`, `cart_id`, `product_id`, `quantity`, `buy_now`) VALUES
-       (1, 'vsc-2019-abcdefgh', 30, 2, true), (2, 'vsc-2019-abcdefgh', 33, 3, true);
+INSERT INTO `shopping_cart` (`item_id`, `cart_id`, `product_id`, `attributes`, `quantity`, `buy_now`, `added_on`) VALUES
+       (1, 'vsc-2019-abcdefgh', 30, '{}' 2, true, 'NOW()'), (2, 'vsc-2019-abcdefgh', 33, '{}', 3, true, 'NOW()');
 
 -- Change DELIMITER to $$
 DELIMITER $$
@@ -605,7 +605,7 @@ END $$
 
 -- Create catalog_search stored procedure
 CREATE PROCEDURE catalog_search(
-  IN inSearchString TEXT, IN inAllWords VARCHAR(3),
+  IN inSearchString TEXT, IN inAllWords VARCHAR(2),
   IN inShortProductDescriptionLength INT,
   IN inProductsPerPage INT, IN inStartItem INT)
 BEGIN
@@ -1071,7 +1071,7 @@ END $$
 -- Create shopping_cart_get_products stored procedure
 CREATE PROCEDURE shopping_cart_get_products(IN inCartId CHAR(32))
 BEGIN
-  SELECT     sc.item_id, p.name, sc.attributes,
+  SELECT     sc.item_id, p.name, sc.attributes, p.thumbnail, p.product_id,
              COALESCE(NULLIF(p.discounted_price, 0), p.price) AS price,
              sc.quantity,
              COALESCE(NULLIF(p.discounted_price, 0),

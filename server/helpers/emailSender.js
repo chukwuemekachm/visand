@@ -1,7 +1,24 @@
+/**
+ * @fileOverview Contains the SendGrid email sender configuration used to send emails
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:@sendgrid/mail
+*/
+
 import sendGrid from '@sendgrid/mail';
 
 const { SENDGRID_API_KEY } = process.env;
 
+/**
+ * @description Sends an Email
+ *
+ * @param {string} userEmail - The recipient's email
+ * @param {string} mailSubject - The email subject
+ * @param {string} mailBody - The mail body
+ *
+ * @returns {boolean}
+ */
 export const sendEmail = async (userEmail, mailSubject, mailBody) => {
   try {
     const message = {

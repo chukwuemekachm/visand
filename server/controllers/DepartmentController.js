@@ -1,12 +1,40 @@
+/**
+ * @fileOverview Contains the Department Controller class
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires server/repositories/DepartmentRepository.js
+ * @requires server/helpers/Errors.js:NotFoundError
+ * @requires server/utils/utils.js:appendImageUrls
+*/
+
 import DepartmentRepository from '../repositories/DepartmentRepository';
 import { NotFoundError } from '../helpers/Errors';
 import { appendImageUrls } from '../utils/utils';
 
+/**
+ * The Department Controller class
+ * @class
+*/
 class DepartmentController {
+  /**
+   * @constructor
+  */
   constructor() {
     this.repository = DepartmentRepository;
   }
 
+  /**
+   * @description Returns all the departments on the platform
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getAllDepartments = async (req, res, next) => {
     try {
       const departments = await this.repository.get();
@@ -19,6 +47,17 @@ class DepartmentController {
     }
   };
 
+  /**
+   * @description Returns a single department on the platform by id
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getSingleDepartment = async (req, res, next) => {
     try {
       const { departmentId } = req.params;
@@ -40,6 +79,17 @@ class DepartmentController {
     }
   };
 
+  /**
+   * @description Returns all the products which belong to a department
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getDepartmentProducts = async (req, res, next) => {
     try {
       const hostName = req.get('host');
@@ -60,6 +110,17 @@ class DepartmentController {
     }
   };
 
+  /**
+   * @description Returns all the categories which belong to a department
+   *
+   * @function
+   * 
+   * @param {object} req - The HTTP request object
+   * @param {object} res - The HTTP response object
+   * @param {object} next - The next middleware to be invoked
+   * 
+   * @returns {object}
+   */
   getDepartmentCategories = async (req, res, next) => {
     try {
       const { departmentId } = req.params;

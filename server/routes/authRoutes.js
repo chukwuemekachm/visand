@@ -1,3 +1,13 @@
+/**
+ * @fileOverview Contains the auth routes definitions
+ *
+ * @author Chima Chukwuemeka
+ *
+ * @requires NPM:express
+ * @requires NPM:passport
+ * @requires server/controllers/AuthController.js
+*/
+
 import { Router } from 'express';
 import passport from 'passport';
 
